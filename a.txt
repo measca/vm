@@ -1,0 +1,283 @@
+遇到 <div class="main"><inut type="text" ></div>
+结构：
+{
+    type: "TAG",   // 全都大写
+    name: "div",   // 全都小写
+    attribute: {   // 存放 标签而外的属性
+        "class": {     // 为了区分值的类型。
+            type: "STRING",
+            value: "main"
+        }
+    },
+    body: [        // 存放 标签的体内容
+        {
+            type: "TAG",
+            name: "input",
+            attribute: {
+                "type": {
+                    type: "STRING",
+                    value: "main"
+                }
+            }
+        }
+    ]
+}
+
+
+遇到 <img
+        src={path}
+        class={{show: isShow, "index-top": top > 20 || bottom < 0 && left == 0, "pull-left": !!inLeft}}
+        alt={title | toLow('a', val, 'v' | toLow) | to}
+        index={i + 5 * (20 - 1) / 9}
+        index-t={i++}>
+注意 EXPRESSION 类型里面的变量只做变量名的替换，以及filter的数值处理。处理完成后拼接成可执行的方法进行返回；
+{
+    type: "TAG",
+    name: "img",
+    attribute: {
+        "src": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "VARIABLE",
+                    value: "path"
+                }
+            ]
+        },
+        "class": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "{}",
+                    value: {
+                        "show": [
+                            {
+                                type: "VARIABLE",
+                                value: "isShow"
+                            }
+                        ],
+                        "index-top": [
+                            {
+                                type: "VARIABLE",
+                                value: "top"
+                            },
+                            {
+                                type: ">"
+                            },
+                            {
+                                type: "NUMBER",
+                                value: 20
+                            },
+                            {
+                                type: "||"
+                            },
+                            {
+                                type: "VARIABLE",
+                                value: "bottom"
+                            },
+                            {
+                                type: "<"
+                            },
+                            {
+                                type: "NUMBER",
+                                value: 0
+                            },
+                            {
+                                type: "&&"
+                            },
+                            {
+                                type: "VARIABLE",
+                                value: "left"
+                            },
+                            {
+                                type: "=="
+                            },
+                            {
+                                type: "NUMBER",
+                                value: 0
+                            }
+                        ],
+                        "pull-left": [
+                            {
+                                type: "!"
+                            },
+                            {
+                                type: "!"
+                            },
+                            {
+                                type: "VARIABLE",
+                                value: "inLeft"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "alt": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "VARIABLE",
+                    value: "title",
+                    filter: [
+                        {
+                            name: "toLow",
+                            parameter: [
+                                {
+                                    type: "STRING",
+                                    value: "a"
+                                },
+                                {
+                                    type: "VARIABLE",
+                                    value: "val"
+                                },
+                                {
+                                    type: "STRING",
+                                    value: "v",
+                                    filter: [
+                                        {
+                                            name: "to"
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "index": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "VARIABLE",
+                    value: "i"
+                },
+                {
+                    type: "+"
+                },
+                {
+                    type: "NUMBER",
+                    value: 5
+                },
+                {
+                    type: "*"
+                },
+                {
+                    type: "()",
+                    value: [
+                        {
+                            type: "NUMBER",
+                            value: 20
+                        },
+                        {
+                            type: "-"
+                        },
+                        {
+                            type: "NUMBER",
+                            value: 1
+                        }
+                    ]
+                },
+                {
+                    type: "/"
+                },
+                {
+                    type: "NUMBER",
+                    value: 9
+                }
+            ]
+        },
+        "index-t": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "VARIABLE",
+                    value: "i"
+                },
+                {
+                    type: "+"
+                },
+                {
+                    type: "+"
+                }
+            ]
+        }
+    }
+}
+
+遇到 <div class={getClass('c', 2)}>{getName() | fit}</div>
+{
+    type: "TAG",
+    name: "div",
+    attribute: {
+        "class": {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "FUNCTION",
+                    value: "getClass",
+                    parameter: [
+                        {
+                            type: "STRING",
+                            value: "c"
+                        },
+                        {
+                          type: "NUMBER",
+                          value: 2  
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    body: [
+        {
+            type: "EXPRESSION",
+            value: [
+                {
+                    type: "FUNCTION",
+                    value: "getName",
+                    parameter: [],
+                    filter: [
+                        {
+                            name: "fit",
+                            parameter: []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+
+遇到 {for v,k,i in arr}{/for}
+{
+    type: "EXPRESSION_TAG",
+    name: "for",
+    parameter: [
+        [
+            {
+                type: "VARIABLE",
+                value: "v"
+            },
+            {
+                type: "VARIABLE",
+                value: "k"
+            },
+            {
+                type: "VARIABLE",
+                value: "i"
+            }
+        ],
+        {
+            type: "VARIABLE",
+            value: "in"
+        },
+        {
+            type: "VARIABLE",
+            value: "arr"
+        }
+    ],
+    body: []
+}
